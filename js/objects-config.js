@@ -315,19 +315,19 @@ ispy.event_description = {
 	type: ispy.ASSOC, on: true, group: "Tracking", name: "Tracks (reco.)",
 	extra: "Extras_V1", assoc: "TrackExtras_V1",
 	fn: ispy.makeTracks, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.5, lineCaps: "square", linewidth: 1},
-	selection: {"min_pt": 1.0, index: 2}
+	selection: {"min_pt": 1.0, index: 2}, cuts: true
     },
     "Tracks_V2": {
 	type: ispy.ASSOC, on: true, group: "Tracking", name: "Tracks (reco.)",
 	extra: "Extras_V1", assoc: "TrackExtras_V1",
 	fn: ispy.makeTracks, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.5, lineCaps: "square", linewidth: 1},
-	selection: {"min_pt": 1.0, "index": 2}
+	selection: {"min_pt": 1.0, "index": 2}, cuts: true
     },
     "Tracks_V3": {
 	type: ispy.ASSOC, on: true, group: "Tracking", name: "Tracks (reco.)",
 	extra: "Extras_V1", assoc: "TrackExtras_V1",
 	fn: ispy.makeTracks, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.5, lineCaps: "square", linewidth: 1},
-	selection: {"min_pt": 1.0, "index": 2}
+	selection: {"min_pt": 1.0, "index": 2}, cuts: true
     },
     "TrackDets_V1": {
 	type: ispy.BOX, on: false, group: "Tracking", name: "Matching Tracker Dets",
@@ -437,7 +437,7 @@ ispy.event_description = {
     },
     "PFJets_V1": {
 	type: ispy.SHAPE, on: false, group: "Physics", name: "Jets (PF)",
-	fn: ispy.makeJet, style: {color: "rgb(100%, 50%, 0%)", opacity: 0.6}, selection: {"min_et": 10.0}
+	fn: ispy.makeJet, style: {color: "rgb(100%, 50%, 0%)", opacity: 0.6}, selection: {"min_et": 10.0}, cuts: true
     },
     "GenJets_V1": {
 	type: ispy.SHAPE, on: false, group: "Physics", name: "Jets (Sim)",
@@ -458,12 +458,12 @@ ispy.event_description = {
     "GlobalMuons_V1": {
 	type: ispy.ASSOC, on: true, group: "Physics", name: "Global Muons (Reco)",
 	extra: "Points_V1", assoc: "MuonGlobalPoints_V1",
-	fn: ispy.makeTrackPoints, style: {color: "rgb(100%, 0%, 0%)", opacity: 1.0, linewidth: 3}, selection:{"min_pt":1.0, "index":0}
+	fn: ispy.makeTrackPoints, style: {color: "rgb(100%, 0%, 0%)", opacity: 1.0, linewidth: 3}, selection:{"min_pt":1.0, "index":0}, cuts: true
     },
     "GlobalMuons_V2": {
 	type: ispy.ASSOC, on: true, group: "Physics", name: "Global Muons (Reco)",
 	extra: "Points_V1", assoc: "MuonGlobalPoints_V1",
-	fn: ispy.makeTrackPoints, style: {color: "rgb(100%, 0%, 0%)", opacity: 1.0, linewidth: 3}, selection:{"min_pt":1.0, "index":0}
+	fn: ispy.makeTrackPoints, style: {color: "rgb(100%, 0%, 0%)", opacity: 1.0, linewidth: 3}, selection:{"min_pt":1.0, "index":0}, cuts: true
     },
     "PATGlobalMuons_V1": {
 	type: ispy.ASSOC, on: true, group: "Physics", name: "Global Muons (PAT)",

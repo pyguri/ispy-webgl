@@ -349,6 +349,10 @@ ispy.init = function() {
     
     ispy.autoRotating = false;
 
+    ispy.datgui = new dat.GUI();
+    ispy.datgui.domElement.id = 'datgui';
+    display.appendChild(ispy.datgui.domElement);
+
 };
 
 ispy.initLight = function() {
