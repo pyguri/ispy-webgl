@@ -246,36 +246,69 @@ ispy.exportGLTF = function() {
 
 };
 
-ispy.exportModel = function(format) {
-
-  var exporter;
-
-  if ( format === 'obj' ) {
-
-    exporter = new THREE.OBJExporter();
-
-  } else if ( format === 'stl' ) {
-
-    exporter = new THREE.STLExporter();
-
+ispy.parseEventDataAsOBJComment = function (key, obj) {
+  let props = ispy.current_event.Types[key];
+  let eventData = ispy.current_event.Collections[key][obj.userData.originalIndex];
+  if (props == null || eventData == null) {
+    return "\n# no event data parsable";
   }
 
-  ispy.scene.children.forEach(function(c) {
+  let output = '';
+  let propCount = props.length;
 
-    if ( c.children.length > 0 && c.name !== 'Lights' ) { // If no children then nothing to export
+  for (let i = 0; i < propCount; i++) {
+    // Each line should be of this format -> # <type> : <name> := <value>
+    output = output + "\n# " + props[i][1] + " : " + props[i][0] + " := " + eventData[i];
+  }
 
-      c.children.forEach(function(o) {
+  return output;
+};
 
-        if ( o.visible ) {
+ispy.exportModel = function (format) {
+  var exporter;
 
-          ispy.exportString(exporter.parse(o), o.name+'.'+format);
+  if (format === 'obj') {
+    exporter = new THREE.OBJExporter();
+  } else if (format === 'stl') {
+    exporter = new THREE.STLExporter();
+  }
 
+  let c_names = null;
+  let name = null;
+  let i = 0;
+  ispy.scene.children.forEach(function (c) {
+    if (c.children.length > 0 && c.name !== 'Lights') { // If no children then nothing to export
+
+      c.children.forEach(function (o) {
+        if (o.visible) {
+          // When exporting each 3D object should have a different name, we make sure of it using an iterator
+          name = o.name;
+          c_names = new Array(o.length);
+          i = 0;
+          o.traverse(function (child) {
+            c_names[i] = child.name;
+            child.name = c_names[i] + "_" + (i - 1);
+
+            // When exporting in .obj format, we add the data from the current event as comment.
+            // This does increase the size of the exported files but should have no effect on the 3D model.
+            if (format === 'obj') {
+              child.name = child.name + ispy.parseEventDataAsOBJComment(c_names[i], child);
+            }
+            i++;
+          });
+
+          ispy.exportString(exporter.parse(o), name + '.' + format);
+
+          // Reversing the names change since its only necessary when exporting
+          i = 0;
+          o.traverse(function (child) {
+            child.name = c_names[i];
+            i++
+          });
+          c_names = null;
+          name = null;
         }
-
       });
-
     }
-
   });
-
 };
