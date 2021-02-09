@@ -299,7 +299,14 @@ ispy.event_description = {
   "Vertices_V1": {type:ispy.SHAPE, on:false, group:"Physics", name: "Vertices (Reco)",
     fn:ispy.makeVertex, style: {color: "rgb(100%, 40%, 0%)", opacity: 0.9}},
   "SimVertices_V1": {type:ispy.SHAPE, on:false, group:"Physics", name: "Vertices (Sim)",
-    fn:ispy.makeSimVertex, style: {color: "rgb(80%, 20%, 0%)", opacity: 0.9}}
+    fn:ispy.makeSimVertex, style: {color: "rgb(80%, 20%, 0%)", opacity: 0.9}},
+    
+  "Hits_V1": {
+    type:ispy.ASSOC, on:false, group:"Tracking", name: "Assoc Track Hits",
+    extra: "Tracks_V2", assoc: "TrackHits_V1",
+    fn:ispy.makeTrackHits, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.9, lineCaps: "square", linewidth: 1.0}, selection: {}
+    },
+
 };
 
 ispy.disabled = [];

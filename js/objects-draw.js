@@ -1297,3 +1297,82 @@ ispy.makeEvent = function(data) {
   var ei = $('#event-info');
   $('#display').append(ei);
 };
+
+ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
+  if ( ! assocs ) {
+
+	throw "No association!";
+
+    }
+
+    /*
+      hits: Hits_V1
+      "Hits_V1": [["pos", "v3d"]]
+    
+      tracks: Tracks_V2
+      "Tracks_V2": [["pos", "v3d"],["dir", "v3d"],["pt", "double"],["phi", "double"],["eta", "double"],["charge", "int"],["chi2", "double"],["ndof", "double"]]
+
+
+      assocs: TrackHits_V1
+      The associations are an array of pairs of pairs of numbers. For example,
+      the first element in the associations might be [2,0], [4,0]. This means that
+      that track[0] (which is at index 2 in Types and Collections) is associated
+      with the hit[0] (which is at index 4 in Types and Collections). The next association
+      might then be [2,0], [4,1] which says that track[0] (the same one) is associatied
+      to hit[1]. And so on...
+    
+      Usually we know already the collections we're using in the function so first two
+      indices which identify the collections (here 2 and 4) aren't needed.
+
+    */
+
+    var curves = [];
+    
+    var tcolor = new THREE.Color();
+    if ( ispy.inverted_colors ) {
+      tcolor.setStyle(style.altColor);
+    } else {
+      tcolor.setStyle(style.color);
+    }
+
+    var transp = false;
+    if ( style.opacity < 1.0 ) {
+      transp = true;
+    }
+      
+    // Iterate through the tracks and create an array of
+    // associated hit indices
+    for ( var ti = 0; ti < tracks.length; ti++ ) {
+	
+	// Assocations for the track
+	trackhits = assocs.filter(function(assoc) {	    
+	    
+	    return assoc[0][1] === ti; 
+	
+	});
+
+	var ver = []
+
+	trackhits.forEach(function(th) {
+	    var hi = th[1][1];
+	    ver.push(new THREE.Vector3(points[hi][0][0],points[hi][0][1],points[hi][0][2]));
+	});
+	
+	console.log(ti, ver);
+
+	
+	var tg = new THREE.Geometry();
+	tg.vertices = ver;
+
+	var line = new THREE.Line(tg, new THREE.LineBasicMaterial({
+	  color:tcolor,
+	  transparent: transp,
+	  linewidth:style.linewidth,
+	  linecap:'butt',
+	  opacity:style.opacity
+	}));
+
+	curves.push(line);
+      }
+	return curves;
+};
