@@ -7,7 +7,11 @@ ispy.addDetector = function() {
   });
   $("tr.Detector").remove();
 
-  for ( var key in ispy.detector_description ) {
+  for ( var name in ispy.detector_description ) {
+
+    var key = name;
+    if (name.endsWith("*"))
+      key = key.replaceAll("*",'');
 
     var data = ispy.detector.Collections[key];
     if ( ! data || data.length === 0 ) {
@@ -52,7 +56,7 @@ ispy.addDetector = function() {
         var line = new THREE.LineSegments(geometry, material);
         line.name = key;
         line.renderOrder = 1;
-        ispy.scene.getObjectByName(key).add(line);
+        ispy.scene.getObjectByName(name).add(line);
 
         break;
 
@@ -74,7 +78,7 @@ ispy.addDetector = function() {
         var meshes = new THREE.Mesh(boxes, material);
         meshes.name = key;
         meshes.renderOrder = 1;
-        ispy.scene.getObjectByName(key).add(meshes);
+        ispy.scene.getObjectByName(name).add(meshes);
 
         break;
 
@@ -89,7 +93,7 @@ ispy.addDetector = function() {
         var mesh = new THREE.LineSegments(geometry, material);
         mesh.name = key;
         mesh.renderOrder = 1;
-        ispy.scene.getObjectByName(key).add(mesh);
+        ispy.scene.getObjectByName(name).add(mesh);
 
         break;
 
@@ -107,7 +111,7 @@ ispy.addDetector = function() {
             var line = new THREE.LineSegments(shape, material);
             line.name = key;
             line.renderOrder = 1;
-            ispy.scene.getObjectByName(key).add(line);
+            ispy.scene.getObjectByName(name).add(line);
           }
         }
 
@@ -137,13 +141,18 @@ ispy.addEvent = function(event) {
   // remove selectors for last event
   $("tr.Event").remove();
 
-  for ( var key in ispy.event_description ) {
+  for ( var name in ispy.event_description ) {
+
+      var key = name;
+      if (name.endsWith("*"))
+        key = key.replaceAll("*",'');
+
     var data = event.Collections[key];
     if ( ! data || data.length === 0 ) {
       continue;
     }
 
-    var descr = ispy.event_description[key];
+    var descr = ispy.event_description[name];
 
     var extra = null;
     var assoc = null;
@@ -163,7 +172,7 @@ ispy.addEvent = function(event) {
     var visible = ! ispy.disabled[key] ? descr.on = true : descr.on = false;
 
     var obj = new THREE.Object3D();
-    obj.name = key;
+    obj.name = name;
     obj.visible = visible;
     ispy.scene.getObjectByName(descr.group).add(obj);
 
@@ -201,8 +210,8 @@ ispy.addEvent = function(event) {
         }
 
         var line = new THREE.LineSegments(geometry, material);
-        line.name = key;
-        ispy.scene.getObjectByName(key).add(line);
+        line.name = name;
+        ispy.scene.getObjectByName(name).add(line);
 
         break;
 
@@ -222,8 +231,8 @@ ispy.addEvent = function(event) {
         }
 
         var meshes = new THREE.Mesh(boxes, material);
-        meshes.name = key;
-        ispy.scene.getObjectByName(key).add(meshes);
+        meshes.name = name;
+        ispy.scene.getObjectByName(name).add(meshes);
 
         break;
 
@@ -248,8 +257,8 @@ ispy.addEvent = function(event) {
         }
 
         var meshes = new THREE.Mesh(boxes, material);
-        meshes.name = key;
-        ispy.scene.getObjectByName(key).add(meshes);
+        meshes.name = name;
+        ispy.scene.getObjectByName(name).add(meshes);
 
         break;
 
@@ -267,8 +276,8 @@ ispy.addEvent = function(event) {
         }
 
         var meshes = new THREE.Mesh(boxes, material);
-        meshes.name = key;
-        ispy.scene.getObjectByName(key).add(meshes);
+        meshes.name = name;
+        ispy.scene.getObjectByName(name).add(meshes);
 
         break;
 
@@ -278,12 +287,12 @@ ispy.addEvent = function(event) {
         objs.forEach(function(o, i) {
           // for event info we want each of the children to have the
           // same name as the parent. this is so clicking on an object works
-          o.name = key;
+          o.name = name;
           // originalIndex works as a link between the original
           // data and THREE objects:
           o.userData.originalIndex = i;
           objectIds.push(o.id);
-          ispy.scene.getObjectByName(key).add(o);
+          ispy.scene.getObjectByName(name).add(o);
         });
         break;
 
@@ -294,8 +303,8 @@ ispy.addEvent = function(event) {
         var material = new THREE.PointsMaterial({color:ocolor, size:descr.style.size});
         var geometry = descr.fn(data);
         var points = new THREE.Points(geometry, material);
-        points.name = key;
-        ispy.scene.getObjectByName(key).add(points);
+        points.name = name;
+        ispy.scene.getObjectByName(name).add(points);
         break;
 
       case ispy.SHAPE:
@@ -303,12 +312,12 @@ ispy.addEvent = function(event) {
         for ( var i = 0; i < data.length; i++ ) {
           var shape = descr.fn(data[i], descr.style, descr.selection);
           if ( shape !== null ) {
-            shape.name = key;
+            shape.name = name;
             // originalIndex works as a link between the original
             // data and THREE objects:
             shape.userData.originalIndex = i;
             objectIds.push(shape.id);
-            ispy.scene.getObjectByName(key).add(shape);
+            ispy.scene.getObjectByName(name).add(shape);
           }
         }
         break;
@@ -324,12 +333,12 @@ ispy.addEvent = function(event) {
               linewidth:descr.style.linewidth,
               opacity:descr.style.opacity
             }));
-            line.name = key;
+            line.name = name;
             // originalIndex works as a link between the original
             // data and THREE objects:
             line.userData.originalIndex = i;
             objectIds.push(line.id);
-            ispy.scene.getObjectByName(key).add(line);
+            ispy.scene.getObjectByName(name).add(line);
           });
         }
         break;
@@ -339,7 +348,7 @@ ispy.addEvent = function(event) {
         break;
     }
 
-    ispy.addSelectionRow(descr.group, key, descr.name, objectIds, visible);
+    ispy.addSelectionRow(descr.group, name, descr.name, objectIds, visible);
 
   }
 };

@@ -1300,10 +1300,8 @@ ispy.makeEvent = function(data) {
 
 ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
   if ( ! assocs ) {
-
 	throw "No association!";
-
-    }
+  }
 
     /*
       hits: Hits_V1
@@ -1326,53 +1324,130 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
 
     */
 
-    var curves = [];
-    
-    var tcolor = new THREE.Color();
-    if ( ispy.inverted_colors ) {
-      tcolor.setStyle(style.altColor);
-    } else {
-      tcolor.setStyle(style.color);
-    }
+  var curves = [];
 
-    var transp = false;
-    if ( style.opacity < 1.0 ) {
-      transp = true;
-    }
-      
-    // Iterate through the tracks and create an array of
-    // associated hit indices
-    for ( var ti = 0; ti < tracks.length; ti++ ) {
-	
-	// Assocations for the track
-	trackhits = assocs.filter(function(assoc) {	    
-	    
-	    return assoc[0][1] === ti; 
-	
-	});
+  var tcolor = new THREE.Color();
+  if ( ispy.inverted_colors ) {
+    tcolor.setStyle(style.altColor);
+  } else {
+    tcolor.setStyle(style.color);
+  }
 
-	var ver = []
+  var transp = false;
+  if ( style.opacity < 1.0 ) {
+    transp = true;
+  }
 
-	trackhits.forEach(function(th) {
-	    var hi = th[1][1];
-	    ver.push(new THREE.Vector3(points[hi][0][0],points[hi][0][1],points[hi][0][2]));
-	});
-	
-	console.log(ti, ver);
+  // Iterate through the tracks and create an array of
+  // associated hit indices
+  for ( var ti = 0; ti < tracks.length; ti++ ) {
 
-	
-	var tg = new THREE.Geometry();
-	tg.vertices = ver;
+    // Assocations for the track
+    trackhits = assocs.filter(function(assoc) {
 
-	var line = new THREE.Line(tg, new THREE.LineBasicMaterial({
-	  color:tcolor,
-	  transparent: transp,
-	  linewidth:style.linewidth,
-	  linecap:'butt',
-	  opacity:style.opacity
-	}));
+      return assoc[0][1] === ti;
 
-	curves.push(line);
-      }
-	return curves;
+    });
+
+    var ver = []
+
+    trackhits.forEach(function(th) {
+      var hi = th[1][1];
+      ver.push(new THREE.Vector3(points[hi][0][0],points[hi][0][1],points[hi][0][2]));
+    });
+
+    var tg = new THREE.Geometry();
+    tg.vertices = ver;
+
+    var line = new THREE.Line(tg, new THREE.LineBasicMaterial({
+      color:tcolor,
+      transparent: transp,
+      linewidth:style.linewidth,
+      linecap:'butt',
+      opacity:style.opacity
+    }));
+
+    curves.push(line);
+  }
+  return curves;
 };
+
+ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
+  if ( ! assocs ) {
+    throw "No association!";
+  }
+
+  let faces = [];
+  faces.push(new THREE.Face3(0,1,2));
+  faces.push(new THREE.Face3(0,2,3));
+
+  faces.push(new THREE.Face3(4,5,6));
+  faces.push(new THREE.Face3(4,6,7));
+
+  faces.push(new THREE.Face3(0,1,4));
+  faces.push(new THREE.Face3(1,4,5));
+
+  faces.push(new THREE.Face3(2,3,6));
+  faces.push(new THREE.Face3(2,6,7));
+
+  faces.push(new THREE.Face3(1,2,5));
+  faces.push(new THREE.Face3(2,5,6));
+
+  faces.push(new THREE.Face3(0,3,4));
+  faces.push(new THREE.Face3(3,4,7));
+
+
+
+  let curves = [];
+
+  let tcolor = new THREE.Color();
+  if ( ispy.inverted_colors ) {
+    tcolor.setStyle(style.altColor);
+  } else {
+    tcolor.setStyle(style.color);
+  }
+
+  let transp = false;
+  if ( style.opacity < 1.0 ) {
+    transp = true;
+  }
+
+  let mat = new THREE.MeshBasicMaterial({
+    color: tcolor,
+    transparent: transp,
+    opacity: style.opacity
+  });
+  mat.side = THREE.DoubleSide;
+
+  // Iterate through the tracks and create an array of
+  // associated hit indices
+  let trackhits;
+  for (var ti = 0; ti < tracks.length; ti++) {
+
+    // Assocations for the track
+    trackhits = assocs.filter(function (assoc) {
+
+      return assoc[0][1] === ti;
+
+    });
+
+    let boxes = [];
+
+    trackhits.forEach(function (th) {
+      let di = th[1][1];
+      let ver = [];
+      for (let i = 1; i < 9; i++)
+        ver.push(new THREE.Vector3(dets[di][i][0], dets[di][i][1], dets[di][i][2]));
+      boxes.push(ver);
+    });
+
+    boxes.forEach(function (box) {
+      let geo = new THREE.Geometry();
+      geo.vertices = box;
+      geo.faces = faces;
+      let mesh = new THREE.Mesh(geo, mat);
+      curves.push(mesh);
+    })
+  }
+  return curves;
+}
