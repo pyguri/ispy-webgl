@@ -1398,7 +1398,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
 
 
 
-  let curves = [];
+  let meshes = [];
 
   let tcolor = new THREE.Color();
   if ( ispy.inverted_colors ) {
@@ -1441,13 +1441,15 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       boxes.push(ver);
     });
 
+    var track_geo = new THREE.Geometry();
     boxes.forEach(function (box) {
-      let geo = new THREE.Geometry();
-      geo.vertices = box;
-      geo.faces = faces;
-      let mesh = new THREE.Mesh(geo, mat);
-      curves.push(mesh);
-    })
+      let box_geo = new THREE.Geometry();
+      box_geo.vertices = box;
+      box_geo.faces = faces;
+      track_geo.merge(box_geo);
+    });
+    let mesh = new THREE.Mesh(track_geo, mat);
+    meshes.push(mesh);
   }
-  return curves;
+  return meshes;
 }

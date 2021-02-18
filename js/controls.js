@@ -292,6 +292,8 @@ ispy.parseEventDataAsOBJComment = function (key, obj) {
     return output;
 };
 
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+
 ispy.exportModel = function (format) {
     var exporter;
 
@@ -315,7 +317,7 @@ ispy.exportModel = function (format) {
                     i = 0;
                     o.traverse(function (child) {
                         c_names[i] = child.name;
-                        child.name = c_names[i] + "_" + (i - 1);
+                        child.name = c_names[i] + "_" + zeroPad(i-1, 6);
 
                         // When exporting in .obj format, we add the data from the current event to the name.
                         // This does increase the size of the exported files but should have no effect on the 3D model.
