@@ -1433,6 +1433,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
 
     let boxes = [];
 
+    // create a box for each detector
     trackhits.forEach(function (th) {
       let di = th[1][1];
       let ver = [];
@@ -1441,6 +1442,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       boxes.push(ver);
     });
 
+    // merge the boxes in one "mesh" for each track
     var track_geo = new THREE.Geometry();
     boxes.forEach(function (box) {
       let box_geo = new THREE.Geometry();
