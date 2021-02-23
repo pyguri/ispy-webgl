@@ -240,13 +240,13 @@ THREE.OBJExporter.prototype = {
 
 		object.traverse( function ( child ) {
 
-			if ( child instanceof THREE.Mesh ) {
+			if ( child instanceof THREE.Mesh && child.visible) {
 
 				parseMesh( child );
 
 			}
 
-			if ( child instanceof THREE.Line ) {
+			if ( child instanceof THREE.Line && child.visible) {
 
 				parseLine( child );
 

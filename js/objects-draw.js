@@ -826,9 +826,8 @@ ispy.makeTracks = function(tracks, extras, assocs, style, selection) {
       opacity:style.opacity
     }));
 
-    if ( pt < selection.min_pt ) {
-      line.visible = false;
-    }
+
+    line.visible = pt >= selection.min_pt;
 
     curves.push(line);
   }
@@ -1342,6 +1341,9 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
   // associated hit indices
   for ( var ti = 0; ti < tracks.length; ti++ ) {
 
+    var pt = tracks[ti][selection.index];
+
+
     // Assocations for the track
     trackhits = assocs.filter(function(assoc) {
 
@@ -1366,6 +1368,8 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
       linecap:'butt',
       opacity:style.opacity
     }));
+
+    line.visible = pt >= selection.min_pt;
 
     curves.push(line);
   }
@@ -1424,6 +1428,8 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
   let trackhits;
   for (var ti = 0; ti < tracks.length; ti++) {
 
+    var pt = tracks[ti][selection.index];
+
     // Assocations for the track
     trackhits = assocs.filter(function (assoc) {
 
@@ -1451,6 +1457,9 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       track_geo.merge(box_geo);
     });
     let mesh = new THREE.Mesh(track_geo, mat);
+
+    mesh.visible = pt >= selection.min_pt;
+
     meshes.push(mesh);
   }
   return meshes;

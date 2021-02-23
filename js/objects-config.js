@@ -137,6 +137,8 @@ ispy.detector_description = {
     opacity: 0.5, linewidth: 0.5}}
 };
 
+const tracking_min_pt = 0.5;
+
 ispy.event_description = {
   "SuperClusters_V1": {type: ispy.ASSOC, on: false, group: "ECAL", name: "SuperClusters",
     extra: "RecHitFractions_V1", assoc: "SuperClusterRecHitFractions_V1",
@@ -177,7 +179,7 @@ ispy.event_description = {
   "Tracks_V2": {type: ispy.ASSOC, on: false, group: "Tracking", name: "Tracks (reco.)",
     extra: "Extras_V1", assoc: "TrackExtras_V1",
     fn: ispy.makeTracks, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.9, lineCaps: "square", linewidth: 1.5},
-    selection: {"min_pt": 0.5, "index": 2}},
+    selection: {"min_pt": tracking_min_pt, "index": 2}},
   "Tracks_V3": {type: ispy.ASSOC, on: false, group: "Tracking", name: "Tracks (reco.)",
     extra: "Extras_V1", assoc: "TrackExtras_V1",
     fn: ispy.makeTracks, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.9, lineCaps: "square", linewidth: 1.5},
@@ -304,13 +306,14 @@ ispy.event_description = {
   "Hits_V1": {
     type:ispy.ASSOC, on:false, group:"Tracking", name: "Assoc Track Hits",
     extra: "Tracks_V2", assoc: "TrackHits_V1",
-    fn:ispy.makeTrackHits, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.9, lineCaps: "square", linewidth: 1.0}, selection: {}
-    },
+    fn:ispy.makeTrackHits, style: {color: "rgb(100%, 100%, 0%)", altColor: "rgb(100%, 50%, 0%)", opacity: 0.9, lineCaps: "square", linewidth: 1.0},
+    selection: {"min_pt": tracking_min_pt, "index": 2}},
 
   "TrackDets_V1*": {
     type: ispy.ASSOC, on: false, group: "Tracking", name: "Assoc Track Dets",
     extra: "Tracks_V2", assoc: "TrackHits_V1",
-    fn: ispy.makeTrackDets, style: {color: "rgb(100%, 100%, 0%)", opacity: 0.5, linewidth: 0.5}}
+    fn: ispy.makeTrackDets, style: {color: "rgb(100%, 100%, 0%)", opacity: 0.5, linewidth: 0.5},
+    selection: {"min_pt": tracking_min_pt, "index": 2}}
 
 };
 

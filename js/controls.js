@@ -321,7 +321,7 @@ ispy.exportModel = function (format) {
 
                         // When exporting in .obj format, we add the data from the current event to the name.
                         // This does increase the size of the exported files but should have no effect on the 3D model.
-                        if (format === 'obj') {
+                        if (format === 'obj' && child.visible) {
                             child.name = child.name + ispy.parseEventDataAsString(c_names[i].replaceAll("*",''), child);
                         }
                         i++;
