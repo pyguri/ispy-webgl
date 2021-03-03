@@ -1454,13 +1454,16 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       let box_geo = new THREE.Geometry();
       box_geo.vertices = box;
       box_geo.faces = faces;
-      track_geo.merge(box_geo);
+      let mesh = new THREE.Mesh(box_geo, mat);
+      mesh.group = ti;
+      mesh.visible = pt >= selection.min_pt;
+      meshes.push(mesh);
+      // track_geo.merge(box_geo);
     });
-    let mesh = new THREE.Mesh(track_geo, mat);
 
-    mesh.visible = pt >= selection.min_pt;
-
-    meshes.push(mesh);
+    // mesh.visible = pt >= selection.min_pt;
+    // let mesh = new THREE.Mesh(track_geo, mat);
+    // meshes.push(mesh);
   }
   return meshes;
 }

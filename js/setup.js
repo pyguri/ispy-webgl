@@ -272,6 +272,9 @@ ispy.init = function() {
   $('#transparency-slider').prop('value', ispy.importTransparency);
   $('#trspy').html(ispy.importTransparency);
 
+  ispy.setMinPt(0.5);
+  $('#min-pt-slider').prop('value', ispy.tracking_min_pt);
+
   // Info dialogs are hidden by default (see ispy.css)
   // FF keeps state on reload so force here
   $('#show-info').prop('checked', false);

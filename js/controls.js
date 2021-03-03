@@ -260,14 +260,14 @@ ispy.parseEventDataAsString = function (key, obj) {
         let first_pos = obj.geometry.vertices[0];
         let dist = first_pos.x * first_pos.x + first_pos.y * first_pos.y + first_pos.z * first_pos.z;
         dist = Math.sqrt(dist);
-        output = output + "_double:dist:=" + dist;
+        output += "_double:dist:=" + dist;
     }
 
     let propCount = props.length;
 
     for (let i = 0; i < propCount; i++) {
         // The string should be of this format -> _<type1>:<name1>:=<value1>_<type2>:<name2>:=<value2>[...]
-        output = output + "_" + props[i][1] + ":" + props[i][0] + ":=" + eventData[i];
+        output += "_" + props[i][1] + ":" + props[i][0] + ":=" + eventData[i];
     }
 
     return output;
@@ -286,7 +286,7 @@ ispy.parseEventDataAsOBJComment = function (key, obj) {
 
     for (let i = 0; i < propCount; i++) {
         // Each line should be of this format -> # <type> : <name> := <value>
-        output = output + "\n# " + props[i][1] + " : " + props[i][0] + " := " + eventData[i];
+        output += "\n# " + props[i][1] + " : " + props[i][0] + " := " + eventData[i];
     }
 
     return output;
@@ -317,17 +317,21 @@ ispy.exportModel = function (format) {
                     i = 0;
                     o.traverse(function (child) {
                         c_names[i] = child.name;
-                        child.name = c_names[i] + "_" + zeroPad(i-1, 6);
+
+                        if (child.group >= 0)
+                            child.name += '_grp' + zeroPad(child.group, 6);
+
+                        child.name += "_" + zeroPad(i-1, 6);
 
                         // When exporting in .obj format, we add the data from the current event to the name.
                         // This does increase the size of the exported files but should have no effect on the 3D model.
                         if (format === 'obj' && child.visible) {
-                            child.name = child.name + ispy.parseEventDataAsString(c_names[i].replaceAll("*",''), child);
+                            child.name += ispy.parseEventDataAsString(c_names[i].replaceAll("*",''), child);
                         }
                         i++;
                     });
 
-                    ispy.exportString(exporter.parse(o), name + '.' + format);
+                    ispy.exportString(exporter.parse(o), name.replaceAll("*",'') + '.' + format);
 
                     // Reversing the names change since its only necessary when exporting
                     i = 0;

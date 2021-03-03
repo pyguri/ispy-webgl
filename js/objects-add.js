@@ -348,7 +348,10 @@ ispy.addEvent = function(event) {
         break;
     }
 
-    ispy.addSelectionRow(descr.group, name, descr.name, objectIds, visible);
+
+    let filtered_count = ispy.scene.getObjectByName(name).children.filter(function (o) {return o.visible;}).length;
+
+    ispy.addSelectionRow(descr.group, name, descr.name, objectIds, visible, filtered_count);
 
   }
 };

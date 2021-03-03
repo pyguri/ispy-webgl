@@ -334,6 +334,10 @@
           <input type='range' min='0.0' max='1.0' value='1.0' id='transparency-slider' step='0.05' oninput='ispy.setTransparency(value);'>
         </p>
         <p>
+          Set minimum pt: <span id='min-pt'></span>
+          <input type='range' min='0.0' max='10.0' value='1.0' id='min-pt-slider' step='0.05' oninput='ispy.setMinPt(value);'>
+        </p>
+        <p>
           <div class="btn-group">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
               Select renderer <span class="caret"></span>
