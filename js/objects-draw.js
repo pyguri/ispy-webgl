@@ -1385,6 +1385,10 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
     throw "No association!";
   }
 
+  // we account for the first hits not being tracking,
+  // we should use a lookup map for a more robust algo
+  let first_id = assocs[0][1][1];
+
   let faces = [];
   faces.push(new THREE.Face3(0,1,2));
   faces.push(new THREE.Face3(0,2,3));
@@ -1445,7 +1449,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
 
     // create a box for each detector
     trackhits.forEach(function (th) {
-      let di = th[1][1];
+      let di = th[1][1] - first_id;
       if (di < dets.length){
         let ver = [];
         for (let i = 1; i < 9; i++)
@@ -1454,7 +1458,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       }
     });
 
-    // merge the boxes in one "mesh" for each track
+    // group the boxes for each track
     var track_geo = new THREE.Geometry();
     boxes.forEach(function (box) {
       let box_geo = new THREE.Geometry();
