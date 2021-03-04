@@ -1337,6 +1337,15 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
     transp = true;
   }
 
+  let mat = new THREE.LineBasicMaterial({
+    color:tcolor,
+    transparent: transp,
+    linewidth:style.linewidth,
+    linecap:'butt',
+    opacity:style.opacity
+  });
+
+  let trackhits;
   // Iterate through the tracks and create an array of
   // associated hit indices
   for ( var ti = 0; ti < tracks.length; ti++ ) {
@@ -1345,7 +1354,7 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
 
 
     // Assocations for the track
-    trackhits = assocs.filter(function(assoc) {
+    trackhits = assocs.filter(function (assoc) {
 
       return assoc[0][1] === ti;
 
@@ -1355,19 +1364,14 @@ ispy.makeTrackHits = function(points, tracks, assocs, style, selection) {
 
     trackhits.forEach(function(th) {
       var hi = th[1][1];
-      ver.push(new THREE.Vector3(points[hi][0][0],points[hi][0][1],points[hi][0][2]));
+      if (hi < points.length)
+        ver.push(new THREE.Vector3(points[hi][0][0],points[hi][0][1],points[hi][0][2]));
     });
 
-    var tg = new THREE.Geometry();
-    tg.vertices = ver;
+    var geo = new THREE.Geometry();
+    geo.vertices = ver;
 
-    var line = new THREE.Line(tg, new THREE.LineBasicMaterial({
-      color:tcolor,
-      transparent: transp,
-      linewidth:style.linewidth,
-      linecap:'butt',
-      opacity:style.opacity
-    }));
+    var line = new THREE.Line(geo, mat);
 
     line.visible = pt >= selection.min_pt;
 
@@ -1442,10 +1446,12 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
     // create a box for each detector
     trackhits.forEach(function (th) {
       let di = th[1][1];
-      let ver = [];
-      for (let i = 1; i < 9; i++)
-        ver.push(new THREE.Vector3(dets[di][i][0], dets[di][i][1], dets[di][i][2]));
-      boxes.push(ver);
+      if (di < dets.length){
+        let ver = [];
+        for (let i = 1; i < 9; i++)
+          ver.push(new THREE.Vector3(dets[di][i][0], dets[di][i][1], dets[di][i][2]));
+        boxes.push(ver);
+      }
     });
 
     // merge the boxes in one "mesh" for each track
