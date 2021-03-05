@@ -266,7 +266,7 @@ ispy.makeScaledSolidBox = function(data, geometry, ci, scale) {
   geometry.merge(box);
 };
 
-ispy.makeScaledSolidTower = function(data, geometry, ci, scale) {
+ispy.makeScaledSolidTower = function(data, geometries, ci, scale) {
   var f1 = new THREE.Vector3(data[ci][0],   data[ci][1],   data[ci][2]);
   var f2 = new THREE.Vector3(data[ci+1][0], data[ci+1][1], data[ci+1][2]);
   var f3 = new THREE.Vector3(data[ci+2][0], data[ci+2][1], data[ci+2][2]);
@@ -283,9 +283,6 @@ ispy.makeScaledSolidTower = function(data, geometry, ci, scale) {
   box.vertices.push(f2);
   box.vertices.push(f3);
   box.vertices.push(f4);
-
-  box.faces.push(new THREE.Face3(0,1,2));
-  box.faces.push(new THREE.Face3(0,2,3));
 
   b1.sub(f1);
   b2.sub(f2);
@@ -316,19 +313,19 @@ ispy.makeScaledSolidTower = function(data, geometry, ci, scale) {
   box.faces.push(new THREE.Face3(0,2,3));
   box.faces.push(new THREE.Face3(4,5,6));
   box.faces.push(new THREE.Face3(4,6,7));
-  box.faces.push(new THREE.Face3(4,5,1));
-  box.faces.push(new THREE.Face3(4,1,0));
-  box.faces.push(new THREE.Face3(2,6,7));
-  box.faces.push(new THREE.Face3(2,3,7));
-  box.faces.push(new THREE.Face3(1,5,7));
-  box.faces.push(new THREE.Face3(1,3,7));
-  box.faces.push(new THREE.Face3(4,6,2));
-  box.faces.push(new THREE.Face3(4,0,2));
+  box.faces.push(new THREE.Face3(0,1,4));
+  box.faces.push(new THREE.Face3(1,4,5));
+  box.faces.push(new THREE.Face3(2,3,6));
+  box.faces.push(new THREE.Face3(3,6,7));
+  box.faces.push(new THREE.Face3(1,2,5));
+  box.faces.push(new THREE.Face3(2,5,6));
+  box.faces.push(new THREE.Face3(0,3,4));
+  box.faces.push(new THREE.Face3(3,4,7));
 
   box.computeFaceNormals();
   box.computeVertexNormals();
 
-  geometry.merge(box);
+  geometries.push(box);
 };
 
 ispy.makeWireframeBox = function(data, ci) {
@@ -1400,7 +1397,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
   faces.push(new THREE.Face3(1,4,5));
 
   faces.push(new THREE.Face3(2,3,6));
-  faces.push(new THREE.Face3(2,6,7));
+  faces.push(new THREE.Face3(3,6,7));
 
   faces.push(new THREE.Face3(1,2,5));
   faces.push(new THREE.Face3(2,5,6));

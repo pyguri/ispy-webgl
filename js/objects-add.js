@@ -269,15 +269,18 @@ ispy.addEvent = function(event) {
           opacity:descr.style.opacity});
         material.side = THREE.DoubleSide;
 
-        var boxes = new THREE.Geometry();
+        var boxes = [];
 
         for ( var i = 0; i < data.length; i++ ) {
           descr.fn(data[i], boxes, descr.scale, descr.selection);
         }
 
-        var meshes = new THREE.Mesh(boxes, material);
-        meshes.name = name;
-        ispy.scene.getObjectByName(name).add(meshes);
+        boxes.forEach(function(box, i){
+          var mesh = new THREE.Mesh(box, material);
+          mesh.name = name;
+          mesh.userData.originalIndex = i;
+          ispy.scene.getObjectByName(name).add(mesh);
+        })
 
         break;
 

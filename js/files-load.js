@@ -625,6 +625,6 @@ ispy.loadOBJMTL_new = function(obj_file, mtl_file, id, name, show) {
 
 ispy.importBeampipe = function() {
 
-  ispy.loadOBJMTL_new('./geometry/beampipe.obj', './geometry/beampipe.mtl', 'BeamPipe', 'Beam Pipe', true);
+  ispy.loadOBJMTL_new('./geometry/beampipe.obj', './geometry/beampipe.mtl', 'BeamPipe', 'Beam Pipe', false);
 
 };

@@ -335,7 +335,8 @@
         </p>
         <p>
           Set minimum pt: <span id='min-pt'></span>
-          <input type='range' min='0.0' max='10.0' value='1.0' id='min-pt-slider' step='0.05' oninput='ispy.setMinPt(value);'>
+          <input type='range' min='0.0' max='5.0' value='0.0' id='min-pt-slider' step='0.05' oninput='ispy.setMinPt(value);'>
+          <button type="button" id="reload-event" class="btn btn-default" onclick="ispy.loadEvent();">Reload</button>
         </p>
         <p>
           <div class="btn-group">
