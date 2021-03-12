@@ -278,6 +278,7 @@ ispy.makeScaledSolidTower = function(data, geometries, ci, scale) {
   var b4 = new THREE.Vector3(data[ci+7][0], data[ci+7][1], data[ci+7][2]);
 
   var box = new THREE.Geometry();
+  box.dontBuffer = true;
 
   box.vertices.push(f1);
   box.vertices.push(f2);
@@ -1405,6 +1406,45 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
   faces.push(new THREE.Face3(0,3,4));
   faces.push(new THREE.Face3(3,4,7));
 
+  let uv = [];
+  uv.push(
+      // front
+      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0, 0.9), new THREE.Vector2(0.4, 0.9) ],
+      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1) ],
+      // back
+      [ new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
+      [ new THREE.Vector2(0.9, 0.1),new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
+      // bottom
+      [ new THREE.Vector2(1, 0.1), new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1) ],
+      [new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9) ],
+      // top
+      [ new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9) ],
+      [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
+      // right
+      [ new THREE.Vector2(0.9, 1), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9) ],
+      [ new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
+      // left
+      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0) ],
+      [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0), new THREE.Vector2(0.4, 0) ])
+
+      // // front
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // // back
+      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
+      // // top
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+      // [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
+      // // bottom
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      // // right
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      // // left
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1) ],
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ]
 
 
   let meshes = [];
@@ -1461,6 +1501,9 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       let box_geo = new THREE.Geometry();
       box_geo.vertices = box;
       box_geo.faces = faces;
+      // box_geo.faceVertexUvs[0] = uv;
+      box_geo.dontBuffer = true;
+
       let mesh = new THREE.Mesh(box_geo, mat);
       mesh.group = ti;
       mesh.visible = pt >= selection.min_pt;

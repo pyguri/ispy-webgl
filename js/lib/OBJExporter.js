@@ -30,7 +30,21 @@ THREE.OBJExporter.prototype = {
 
 			var geometry = mesh.geometry;
 
+			var dontBuffer = geometry.dontBuffer;
+
 			var normalMatrixWorld = new THREE.Matrix3();
+
+			var vertices = undefined;
+			var normals = undefined;
+			var uvs = undefined;
+
+			let faces = [];
+
+			if (dontBuffer) {
+				vertices = geometry.vertices;
+				faces = geometry.faces;
+			}
+
 
 			if ( geometry instanceof THREE.Geometry ) {
 
@@ -41,9 +55,12 @@ THREE.OBJExporter.prototype = {
 			if ( geometry instanceof THREE.BufferGeometry ) {
 
 				// shortcuts
-				var vertices = geometry.getAttribute( 'position' );
-				var normals = geometry.getAttribute( 'normal' );
-				var uvs = geometry.getAttribute( 'uv' );
+				if (!dontBuffer){
+					vertices = geometry.getAttribute( 'position' );
+					normals = geometry.getAttribute('normal');
+					uvs = geometry.getAttribute('uv');
+				}
+
 				var indices = geometry.getIndex();
 
 				// name of the mesh object
@@ -58,20 +75,33 @@ THREE.OBJExporter.prototype = {
 
 				if( vertices !== undefined ) {
 
-					for ( i = 0, l = vertices.count; i < l; i ++, nbVertex++ ) {
+					if (dontBuffer) {
+						for (i = 0, l = vertices.length; i < l; i++, nbVertex++) {
 
-						vertex.x = vertices.getX( i );
-						vertex.y = vertices.getY( i );
-						vertex.z = vertices.getZ( i );
+							vertex = vertices[i];
 
-						// transfrom the vertex to world space
-						vertex.applyMatrix4( mesh.matrixWorld );
+							// transfrom the vertex to world space
+							vertex.applyMatrix4(mesh.matrixWorld);
 
-						// transform the vertex to export format
-						output += 'v ' + vertex.x + ' ' + vertex.y + ' ' + vertex.z + '\n';
+							// transform the vertex to export format
+							output += 'v ' + vertex.x + ' ' + vertex.y + ' ' + vertex.z + '\n';
 
+						}
+					} else {
+						for (i = 0, l = vertices.count; i < l; i++, nbVertex++) {
+
+							vertex.x = vertices.getX(i);
+							vertex.y = vertices.getY(i);
+							vertex.z = vertices.getZ(i);
+
+							// transfrom the vertex to world space
+							vertex.applyMatrix4(mesh.matrixWorld);
+
+							// transform the vertex to export format
+							output += 'v ' + vertex.x + ' ' + vertex.y + ' ' + vertex.z + '\n';
+
+						}
 					}
-
 				}
 
 				// uvs
@@ -133,21 +163,35 @@ THREE.OBJExporter.prototype = {
 
 				} else {
 
-					for ( i = 0, l = vertices.count; i < l; i += 3 ) {
+					if (dontBuffer) {
+						for (i = 0, l = faces.length; i < l; i++) {
 
-						for( m = 0; m < 3; m ++ ){
+							j = faces[i].a + 1;
+							face[0] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
+							j = faces[i].b + 1;
+							face[1] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
+							j = faces[i].c + 1;
+							face[2] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
 
-							j = i + m + 1;
+							// transform the face to export format
+							output += 'f ' + face.join(' ') + "\n";
+						}
+					}else {
+						for (i = 0, l = vertices.count; i < l; i += 3) {
 
-							face[ m ] = ( indexVertex + j ) + '/' + ( uvs ? ( indexVertexUvs + j ) : '' ) + '/' + ( indexNormals + j );
+							for (m = 0; m < 3; m++) {
+
+								j = i + m + 1;
+
+								face[m] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (indexNormals + j);
+
+							}
+
+							// transform the face to export format
+							output += 'f ' + face.join(' ') + "\n";
 
 						}
-
-						// transform the face to export format
-						output += 'f ' + face.join( ' ' ) + "\n";
-
 					}
-
 				}
 
 			} else {
