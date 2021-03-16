@@ -60,8 +60,6 @@ THREE.OBJExporter.prototype = {
 				}
 				uvs = geometry.getAttribute('uv');
 
-				console.log(uvs);
-
 				var indices = geometry.getIndex();
 
 				// name of the mesh object
