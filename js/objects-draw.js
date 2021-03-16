@@ -1408,43 +1408,43 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
 
   let uv = [];
   uv.push(
-      // front
-      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0, 0.9), new THREE.Vector2(0.4, 0.9) ],
-      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1) ],
-      // back
-      [ new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
-      [ new THREE.Vector2(0.9, 0.1),new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
-      // bottom
-      [ new THREE.Vector2(1, 0.1), new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1) ],
-      [new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9) ],
-      // top
-      [ new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9) ],
-      [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
-      // right
-      [ new THREE.Vector2(0.9, 1), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9) ],
-      [ new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
-      // left
-      [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0) ],
-      [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0), new THREE.Vector2(0.4, 0) ])
-
       // // front
-      // [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
-      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0, 0.9), new THREE.Vector2(0.4, 0.9) ],
+      // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1) ],
       // // back
-      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
-      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
-      // // top
-      // [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
-      // [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
+      // [ new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
+      // [ new THREE.Vector2(0.9, 0.1),new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
       // // bottom
-      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
-      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      // [ new THREE.Vector2(1, 0.1), new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1) ],
+      // [new THREE.Vector2(1, 0.9), new THREE.Vector2(0.9, 0.1), new THREE.Vector2(0.9, 0.9) ],
+      // // top
+      // [ new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9) ],
+      // [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0.5, 0.9), new THREE.Vector2(0.5, 0.1) ],
       // // right
-      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
-      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      // [ new THREE.Vector2(0.9, 1), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9) ],
+      // [ new THREE.Vector2(0.5, 1), new THREE.Vector2(0.9, 0.9), new THREE.Vector2(0.5, 0.9) ],
       // // left
-      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1) ],
-      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ]
+      // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0) ],
+      // [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0), new THREE.Vector2(0.4, 0) ])
+
+      // front
+      [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
+      [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // back
+      [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0) ],
+      // bottom
+      [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
+      // top
+      [ new THREE.Vector2(0, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
+      [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // right
+      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(1, 0) ],
+      [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
+      // left
+      [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 0) ]);
 
 
   let meshes = [];
@@ -1501,7 +1501,7 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       let box_geo = new THREE.Geometry();
       box_geo.vertices = box;
       box_geo.faces = faces;
-      // box_geo.faceVertexUvs[0] = uv;
+      box_geo.faceVertexUvs[0] = uv;
       box_geo.dontBuffer = true;
 
       let mesh = new THREE.Mesh(box_geo, mat);

@@ -45,7 +45,6 @@ THREE.OBJExporter.prototype = {
 				faces = geometry.faces;
 			}
 
-
 			if ( geometry instanceof THREE.Geometry ) {
 
 				geometry = new THREE.BufferGeometry().setFromObject( mesh );
@@ -58,8 +57,10 @@ THREE.OBJExporter.prototype = {
 				if (!dontBuffer){
 					vertices = geometry.getAttribute( 'position' );
 					normals = geometry.getAttribute('normal');
-					uvs = geometry.getAttribute('uv');
 				}
+				uvs = geometry.getAttribute('uv');
+
+				console.log(uvs);
 
 				var indices = geometry.getIndex();
 
@@ -164,14 +165,15 @@ THREE.OBJExporter.prototype = {
 				} else {
 
 					if (dontBuffer) {
+						var  k = 0;
 						for (i = 0, l = faces.length; i < l; i++) {
 
 							j = faces[i].a + 1;
-							face[0] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
+							face[0] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs  + ++k) : '') + '/' + (normals ? indexNormals + j : '');
 							j = faces[i].b + 1;
-							face[1] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
+							face[1] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs  + ++k) : '') + '/' + (normals ? indexNormals + j : '');
 							j = faces[i].c + 1;
-							face[2] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs + j) : '') + '/' + (normals ? indexNormals + j : '');
+							face[2] = (indexVertex + j) + '/' + (uvs ? (indexVertexUvs  + ++k) : '') + '/' + (normals ? indexNormals + j : '');
 
 							// transform the face to export format
 							output += 'f ' + face.join(' ') + "\n";
