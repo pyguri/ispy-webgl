@@ -1,3 +1,27 @@
+let uv = [];
+uv.push(
+    // front
+    [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
+    [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+    // back
+    [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+    [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0) ],
+    // bottom
+    [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+    [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
+    // top
+    [ new THREE.Vector2(0, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
+    [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+    // right
+    [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(1, 0) ],
+    [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
+    // left
+    [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+    [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 0) ]);
+
+
+
+
 ispy.makeDisc = function(ir, or, pos, slices) {
   var lines = [];
   var points = [];
@@ -325,6 +349,9 @@ ispy.makeScaledSolidTower = function(data, geometries, ci, scale) {
 
   box.computeFaceNormals();
   box.computeVertexNormals();
+
+  box.faceVertexUvs[0] = uv;
+  box.dontBuffer = true;
 
   geometries.push(box);
 };
@@ -1406,8 +1433,8 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
   faces.push(new THREE.Face3(0,3,4));
   faces.push(new THREE.Face3(3,4,7));
 
-  let uv = [];
-  uv.push(
+  // let uv = [];
+  // uv.push(
       // // front
       // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0, 0.9), new THREE.Vector2(0.4, 0.9) ],
       // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.9), new THREE.Vector2(0.4, 0.1) ],
@@ -1426,25 +1453,25 @@ ispy.makeTrackDets = function(dets, tracks, assocs, style, selection) {
       // // left
       // [ new THREE.Vector2(0, 0.1), new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0) ],
       // [ new THREE.Vector2(0.4, 0.1), new THREE.Vector2(0, 0), new THREE.Vector2(0.4, 0) ])
-
-      // front
-      [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
-      [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
-      // back
-      [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
-      [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0) ],
-      // bottom
-      [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
-      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
-      // top
-      [ new THREE.Vector2(0, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
-      [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
-      // right
-      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(1, 0) ],
-      [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
-      // left
-      [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
-      [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 0) ]);
+      //
+      // // front
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1) ],
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // // back
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1) ],
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0) ],
+      // // bottom
+      // [ new THREE.Vector2(1, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+      // [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(0, 1) ],
+      // // top
+      // [ new THREE.Vector2(0, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 1) ],
+      // [ new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(1, 0) ],
+      // // right
+      // [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(1, 0) ],
+      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(0, 0) ],
+      // // left
+      // [ new THREE.Vector2(0, 1), new THREE.Vector2(1, 1), new THREE.Vector2(0, 0) ],
+      // [ new THREE.Vector2(1, 1), new THREE.Vector2(0, 0), new THREE.Vector2(1, 0) ]);
 
 
   let meshes = [];
