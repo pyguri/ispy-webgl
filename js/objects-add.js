@@ -444,6 +444,17 @@ ispy.addEvent = function(event) {
 		    // originalIndex works as a link between the original
 		    // data and THREE objects:
 		    obj.userData.originalIndex = index;
+
+		    // userData["prop"] data is passed on by THREE at export
+			let props = ispy.current_event.Types[key];
+			let eventData = ispy.current_event.Collections[key][obj.userData.originalIndex];
+			if (props != null && eventData != null) {
+				let propCount = props.length;
+				for (let i = 0; i < propCount; i++) {
+					obj.userData[props[i][0]] = eventData[i];
+				}
+			}
+
 		    objectIds.push(obj.id);
 		    ispy.scene.getObjectByName(key).add(obj);
 		    
